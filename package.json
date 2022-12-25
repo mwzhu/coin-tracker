@@ -6,9 +6,15 @@
     "start": "next start"
   },
   "dependencies": {
+    "chart.js": "^4.1.1",
+    "hardhat": "^2.12.4",
     "next": "latest",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-chartjs-2": "^5.1.0",
+    "react-dom": "18.2.0",
+    "react-moralis": "^1.4.2",
+    "react-switch": "^7.0.0",
+    "web3uikit": "^1.0.4"
   },
   "devDependencies": {
     "@types/node": "18.11.3",
