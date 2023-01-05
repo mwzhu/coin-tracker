@@ -11,14 +11,14 @@ export const Connect = () => {
   const [authError, setAuthError] = useState(null);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
-  const handleAuth = async (provider) => {
+  const handleAuth = async () => {
     try {
 
       setAuthError(null);
       setIsAuthenticating(true);
 
       // Enable web3 to get user address and chain
-      await enableWeb3({ throwOnError: true, provider });
+      await enableWeb3({ throwOnError: true, provider: "metamask" });
       const { account, chainId } = Moralis;
 
       if (!account) {
@@ -54,7 +54,7 @@ export const Connect = () => {
 
   return (
     <>
-      <ConnectButton onClick={() => handleAuth("metamask")} />
+      <ConnectButton onClick={() => handleAuth()} />
     </>
   );
 };
