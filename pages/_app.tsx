@@ -5,12 +5,10 @@ import { GunProvider } from '../context/gunContext'
 import { MoralisProvider } from 'react-moralis'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const next_public_server = JSON.stringify(process.env.NEXT_PUBLIC_SERVER)
-  const app_id = JSON.stringify(process.env.NEXT_PUBLIC_APP_ID)
   return (
       <MoralisProvider
-      serverUrl={next_public_server}
-      appId={app_id}
+      serverUrl='https://coinmarketswap.herokuapp.com/server'
+      appId='001'
       >
         <GunProvider>
         <CoinMarketProvider>
