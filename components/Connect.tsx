@@ -45,7 +45,6 @@ export const Connect = () => {
     } catch (error) {
       console.log(error);
       Moralis.User.logOut();
-      setAuthError(error);
     } finally {
       setIsAuthenticating(false);
     }
