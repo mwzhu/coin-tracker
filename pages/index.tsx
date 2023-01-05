@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Header from '../components/Header'
-import Trending from '../components/trending'
-import CMCtable from '../components/cmc-table/cmcTable'
+import Trending from '../components/Trending'
+import CMCtable from '../components/cmc-table/CMCTable'
 import SwapCryptoModal from '../components/swapCryptoModal'
 
 
