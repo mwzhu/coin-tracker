@@ -73,7 +73,7 @@ const Currencies = () => {
                 </div>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <div className={styles.flexCenter}>
-                  <input type='checkbox' /> &nbsp; BTC
+                  <input type='checkbox' /> &nbsp; {coinSymbol}
                 </div>
               </div>
 
@@ -87,7 +87,6 @@ const Currencies = () => {
             <CMCpriceConverter
               from={coinName}
               fromSymbol={coinSymbol}
-              fromLogo={solana}
               toLogo={<Usd />}
               price={price}
               to='United States Dollars'

@@ -6,12 +6,23 @@
     "start": "next start"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.4.4",
+    "@faker-js/faker": "^7.6.0",
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^1.0.6",
+    "@nextui-org/react": "^1.0.0-beta.11",
     "chart.js": "^4.1.1",
+    "ethers": "^5.7.2",
+    "gun": "^0.2020.1239",
     "hardhat": "^2.12.4",
+    "magic-sdk": "^11.0.0",
     "next": "latest",
+    "parse-dashboard": "^5.0.0",
+    "parse-server": "^5.4.0",
     "react": "18.2.0",
     "react-chartjs-2": "^5.1.0",
     "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.0",
     "react-moralis": "^1.4.2",
     "react-switch": "^7.0.0",
     "web3uikit": "^1.0.4"

@@ -1,8 +1,11 @@
 import Image from 'next/image'
 import Search from '../assets/svg/search'
-import { ConnectButton } from 'web3uikit'
-// import { useContext } from 'react'
-// import { CoinMarketContext } from '../context/context'
+import logo from '../assets/logo.png'
+import { Connect } from './Connect'
+import { useContext } from 'react'
+import { CoinMarketContext } from '../context/context'
+import { useRouter } from 'next/router'
+
 
 const styles = {
   navLink: `text-white flex mx-[10px]`,
@@ -17,14 +20,23 @@ const styles = {
 }
 
 const Header = () => {
-//   const { getQuote } = useContext(CoinMarketContext)
+  const { getQuote } = useContext(CoinMarketContext)
+  const router = useRouter()
+
+const viewHome = () => {
+  router.push(
+    `/`,
+  )
+}
   return (
     <div className={styles.header}>
       <Image
         alt=''
-        src='https://s2.coinmarketcap.com/static/cloud/img/coinmarketcap_white_1.svg'
+        src={logo}
         width={220}
         height={220}
+        onClick={viewHome}
+        className={styles.navItem}
       />
 
       <div className={styles.headerWrapper}>
@@ -34,9 +46,9 @@ const Header = () => {
             <div className={styles.badge} />
           </div>
 
-          {/* <div className={styles.navItem} onClick={getQuote}>
+          <div className={styles.navItem} onClick={getQuote}>
             <div className={styles.navLink}>Exchanges</div>
-          </div> */}
+          </div>
 
           <div className={styles.navItem}>
             <div className={styles.navLink}>NFT</div>
@@ -67,7 +79,7 @@ const Header = () => {
         </nav>
 
         <div className='flex items-center'>
-          <ConnectButton />
+          <Connect />
           <div className={styles.inputContainer}>
             <Search />
             <input className={styles.input} placeholder='Search' />

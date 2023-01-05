@@ -20,6 +20,8 @@ const Price = () => {
         setCoinSymbol(urlParams.get('symbol'));
     }
 
+    console.log(coinSymbol)
+
     return <div>
         <Header />
         <CoinDetails coinName={coinName} price={price} coinSymbol={coinSymbol} />

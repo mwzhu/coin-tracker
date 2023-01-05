@@ -1,31 +1,59 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
-const hre = require("hardhat");
+const main = async () => {
+  // console.log('f')
+  // const bitcoinFactory = await hre.ethers.getContractFactory('Bitcoin')
+  // console.log('a')
+  // const bitcoinContract = await bitcoinFactory.deploy()
+  // console.log('b')
+  // await bitcoinContract.deployed()
+  // console.log('bitcoin deployed to:', bitcoinContract.address)
 
-async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  // const BusdFactory = await hre.ethers.getContractFactory('Busd')
+  // const BusdContract = await BusdFactory.deploy()
+  // await BusdContract.deployed()
+  // console.log('Busd deployed to:', BusdContract.address)
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+  // const cardanoFactory = await hre.ethers.getContractFactory('Cardano')
+  // const cardanoContract = await cardanoFactory.deploy()
+  // await cardanoContract.deployed()
+  // console.log('cardano deployed to:', cardanoContract.address)
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  const dogeCoinFactory = await hre.ethers.getContractFactory('DogeCoin')
+  const dogeCoinContract = await dogeCoinFactory.deploy()
+  await dogeCoinContract.deployed()
+  console.log('dogeCoin deployed to:', dogeCoinContract.address)
 
-  await lock.deployed();
+  const polygonFactory = await hre.ethers.getContractFactory('Polygon')
+  const polygonContract = await polygonFactory.deploy()
+  await polygonContract.deployed()
+  console.log('polygon deployed to:', polygonContract.address)
 
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  const xrpFactory = await hre.ethers.getContractFactory('Xrp')
+  const xrpContract = await xrpFactory.deploy()
+  await xrpContract.deployed()
+  console.log('xrp deployed to:', xrpContract.address)
+
+  const usdtFactory = await hre.ethers.getContractFactory('Usdt')
+  const usdtContract = await usdtFactory.deploy()
+  await usdtContract.deployed()
+  console.log('UsdtToken deployed to:', usdtContract.address)
+
+  const usdcFactory = await hre.ethers.getContractFactory('Usdc')
+  const usdcContract = await usdcFactory.deploy()
+  await usdcContract.deployed()
+  console.log('UsdcToken deployed to:', usdcContract.address)
+
+  // const bnbFactory = await hre.ethers.getContractFactory('Bnb')
+  // const bnbContract = await bnbFactory.deploy()
+  // await bnbContract.deployed()
+  // console.log('BNB deployed to:', bnbContract.address)
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+;(async () => {
+  try {
+    await main()
+    process.exit(0)
+  } catch (error) {
+    console.error(error)
+    process.exit(1)
+  }
+})()

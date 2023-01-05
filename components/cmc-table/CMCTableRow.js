@@ -17,8 +17,6 @@ const CMCtableRow = ({
   price = '----',
   hRate = '---',
   dRate = '---',
-  hRateIsIncrement,
-  dRateIsIncrement,
   marketCapValue = '---',
   volumeValue = '---',
   volumeCryptoValue = '---',
@@ -73,7 +71,7 @@ const CMCtableRow = ({
         {coinIcon && coinIcon ? (
           <td className='cursor-pointer'>
             <CoinNameRow
-              name={coinName}
+              symbol={coinSymbol}
               icon={coinIcon}
               clicked={viewCoinDetails}
             />
@@ -86,10 +84,10 @@ const CMCtableRow = ({
           <p>${formatNum(price)}</p>
         </td>
         <td>
-          <Rate isIncrement={hRateIsIncrement} rate={`${formatNum(hRate)}%`} />
+          <Rate isIncrement={(hRate >= 0)} rate={`${formatNum(hRate)}%`} />
         </td>
         <td>
-          <Rate isIncrement={dRateIsIncrement} rate={`${formatNum(dRate)}%`} />
+          <Rate isIncrement={(dRate >= 0)} rate={`${formatNum(dRate)}%`} />
         </td>
 
         <td>
@@ -100,9 +98,9 @@ const CMCtableRow = ({
 
         <td>
           <div>
-            <p>{formatNum(volumeValue)}</p>
+            <p>${formatNum(volumeCryptoValue)}</p>
             <p className='text-gray-400'>
-              {formatNum(volumeCryptoValue)} {coinSymbol}
+              {formatNum(volumeCryptoValue / price)} {coinSymbol}
             </p>
           </div>
         </td>

@@ -1,12 +1,13 @@
 import ChevronDown from '../assets/svg/chevronDown'
 import { useState, useContext, useEffect } from 'react'
-// import { GunContext } from '../context/gunContext'
-// import { faker } from '@faker-js/faker'
+import { GunContext } from '../context/gunContext'
 import ChevronUp from '../assets/svg/chevronUp'
-// import ChatCard from './chatCard'
+import ChatCard from './chatCard'
 import Button from './button'
 import shiba from '../assets/shiba.png'
 import Image from 'next/image'
+import { CoinMarketContext } from '../context/context'
+import { useMoralisQuery } from 'react-moralis'
 
 const styles = {
   bullishLabel: `flex cursor-pointer active:bg-green-600 items-center text text-green-600 border border-green-600 h-min px-2 rounded-lg`,
@@ -24,62 +25,95 @@ const styles = {
 }
 
 const Chat = () => {
+
+  const {
+    data: users,
+    error,
+    isLoading: loadingUsers,
+  } = useMoralisQuery('_User')
+
+  const { currentAccount } = useContext(CoinMarketContext)
+  const { gun, getMessages, state } = useContext(GunContext)
+
+  const [coinName, setCoinName] = useState('')
+  const [coinSymbol, setCoinSymbol] = useState('')
+  const [username, setUsername] = useState('')
+
+  const getData = async () => {
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    setCoinSymbol(urlParams.get('symbol'))
+    setCoinName(urlParams.get('coin'))
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+  useEffect(() => {
+    console.log(coinSymbol)
+    getMessages(coinSymbol)
+    console.log(state.messages)
+  }, [coinSymbol])
+
   const [message, setMessage] = useState('')
   const [bullishValue, setBullishValue] = useState(true)
 
-//   const { gun, getMessages, state } = useContext(GunContext)
 
-//   useEffect(() => {
-//     getMessages('GUN_REF_7')
-//   }, [])
+  useEffect(() => {
+    if (loadingUsers == false) {
+      setUsername(getUsername(users))
+    }
+  }, [loadingUsers])
 
-//   const formattedMessagesArray = () => {
-//     const uniqueArray = state.messages.filter((value, index) => {
-//       const _value = JSON.stringify(value)
+  const formattedMessagesArray = () => {
+    const uniqueArray = state.messages.filter((value, index) => {
+      const _value = JSON.stringify(value)
 
-//       return (
-//         index ===
-//         state.messages.findIndex(obj => {
-//           return JSON.stringify(obj) === _value
-//         })
-//       )
-//     })
-//     console.log(uniqueArray)
-//     return uniqueArray
-//   }
-    const sendMessage = () => {
-        
+      return (
+        index ===
+        state.messages.findIndex(obj => {
+          return JSON.stringify(obj) === _value
+        })
+      )
+    })
+    console.log(uniqueArray)
+    return uniqueArray
+  }
+  const sendMessage = (username) => {
+    if (message.trim() === '') return
+
+    const messagesRef = gun.get(coinSymbol)
+
+    const newMessage = {
+      sender: username,
+      avatar:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3OCSMFIW5fZ3vSN6yGpD-w-6SsL2_ZPA_sw&usqp=CAU',
+      content: message.trim(),
+      isBullish: bullishValue,
+      createdAt: Date().substring(4, 11),
+      messageId: Date.now(),
     }
 
-//   const sendMessage = () => {
-//     if (message.trim() === '') return
+    console.log(newMessage)
 
-//     // const messagesRef = gun.get('GUN_REF')
-//     // const messagesRef = gun.get("GUN_REF_2")
+    messagesRef.set(newMessage)
+    setMessage('')
+  }
 
-//     const messagesRef = gun.get('GUN_REF_7')
-
-//     const newMessage = {
-//       sender: faker.name.findName(),
-//       avatar:
-//         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3OCSMFIW5fZ3vSN6yGpD-w-6SsL2_ZPA_sw&usqp=CAU',
-//       content: message.trim(),
-//       isBullish: bullishValue,
-//       createdAt: Date().substring(4, 11),
-//       messageId: Date.now(),
-//     }
-
-//     console.log(newMessage)
-
-//     messagesRef.set(newMessage)
-//     setMessage('')
-//   }
+  const getUsername = (users) => {
+    for (let i = 0; i < users.length; i++) {
+      if (currentAccount == users[i].attributes.ethAddress) {
+        return "User " + users[i].attributes.username.substring(0,10);
+      }
+    }
+  }
 
   return (
     <>
       <div className={styles.chat}>
         <div className={styles.flexBetween}>
-          <p className={styles.boldText}>Live Shiba Inu Chat</p>
+          <p className={styles.boldText}>Live {coinName} Chat</p>
           <p className='text-[#6188FF]'>See more</p>
         </div>
 
@@ -89,11 +123,13 @@ const Chat = () => {
           <div className={styles.flexBetween}>
             <div className={styles.flexCenter}>
               <div>
-                <Image alt='' src={shiba} width={70} height={70} />
+                <Image alt='' src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3OCSMFIW5fZ3vSN6yGpD-w-6SsL2_ZPA_sw&usqp=CAU'} width={70} height={70} />
               </div>
               <div className='text-left mr-10'>
-                <b>Michael</b>
-                <p className='text-gray-400'>@rnichaelzhu</p>
+              {loadingUsers ? (<b>Michael</b>)
+              :
+              (<b>{username}</b>)}
+                <p className='text-gray-400'>{currentAccount.substring(0,6) + "..." + currentAccount.substring(currentAccount.length - 3, currentAccount.length)}</p>
               </div>
             </div>
 
@@ -138,30 +174,31 @@ const Chat = () => {
 
       <input
         className={styles.input}
-        placeholder="What's happening on BTC?"
+        placeholder={"What's happening on " + coinSymbol + " ?"}
         value={message}
         onChange={e => setMessage(e.target.value)}
       />
 
       <div className={styles.postButtonContainer}>
-        <Button label='Post' onPress={sendMessage} />
+        {loadingUsers && loadingUsers ? (<Button label='Post'/>)
+        :
+        (<Button label='Post' onPress={() => sendMessage(username)} />)}
       </div>
-      {/* {formattedMessagesArray()
+      {formattedMessagesArray()
         .slice(0)
         .reverse()
         .map((message, index) => (
           <ChatCard
             key={index}
             sender={message.sender}
-            senderUsername={message.username}
             senderAvatar='https:/encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3OCSMFIW5fZ3vSN6yGpD-w-6SsL2_ZPA_sw&usqp=CAU'
             bullish={message.isBullish}
             timestamp={message.createdAt}
             content={message.content}
-            likes='2.7K'
-            comments='19K'
+            likes='0'
+            comments='0'
           />
-        ))} */}
+        ))}
     </>
   )
 }

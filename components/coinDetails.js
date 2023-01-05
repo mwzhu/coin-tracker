@@ -2,17 +2,8 @@ import Image from 'next/image'
 import DropdownBtn from './buttons/dropDownBtn'
 import Rate from './cmc-table/rate'
 import RateFilled from './buttons/rateFilled'
-import btc from '../assets/btc.png'
-import eth from '../assets/eth.png'
-import usdc from '../assets/usdc.png'
-import usdt from '../assets/usdt.png'
-import xrp from '../assets/xrp.png'
-import cardano from '../assets/cardano.png'
-import tera from '../assets/tera.png'
-import solana from '../assets/solana.png'
-import avalanche from '../assets/avalanche.png'
-import bnb from '../assets/bnb.png'
-// import { useMoralis } from 'react-moralis'
+import { coinImages } from '../lib/constants'
+
 
 const styles = {
     coinDetails: `min-h-screen text-white`,
@@ -28,138 +19,19 @@ const styles = {
 }
 
 const CoinDetails = ({ coinName, coinSymbol, price }) => {
-  const coinIcon = () => {
-    switch (coinName) {
-      case 'Bitcoin':
-        return (
-          <Image
-            src={btc}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      case 'Ethereum':
-        return (
-          <Image
-            src={eth}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      case 'Tether':
-        return (
-          <Image
-            src={usdt}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      case 'BNB':
-        return (
-          <Image
-            src={bnb}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      case 'USD Coin':
-        return (
-          <Image
-            src={usdc}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      case 'XRP':
-        return (
-          <Image
-            src={xrp}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      case 'Cardano':
-        return (
-          <Image
-            src={cardano}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      case 'Terra':
-        return (
-          <Image
-            src={tera}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      case 'Solana':
-        return (
-          <Image
-            src={solana}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      case 'Avalanche':
-        return (
-          <Image
-            src={avalanche}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-
-      default:
-        return (
-          <Image
-            src={btc}
-            className='rounded-full'
-            width={50}
-            height={50}
-            alt=''
-          />
-        )
-    }
-  }
-
   return (
     <main className={styles.coinDetails}>
       <div>
         <div className={styles.coinDetailsWrapper}>
           <div className='flex flex-col w-fit'>
             <div className='flex items-center'>
-              {coinIcon()}
+              { !coinSymbol ? <></> :          <Image
+            src={coinImages[coinSymbol][0]}
+            className='rounded-full'
+            width={50}
+            height={50}
+            alt=''
+          />}
               &nbsp; &nbsp;
               <div>
                 <div className='flex'>
@@ -175,7 +47,7 @@ const CoinDetails = ({ coinName, coinSymbol, price }) => {
             <br />
             <br />
             <div className={styles.coinDetailsLinks}>
-              <div className={styles.greyBtn}>solana.com</div>
+              <div className={styles.greyBtn}>{coinName}.com</div>
               <div className={styles.greyBtn}>Explorers</div>
               <div className={styles.greyBtn}>Community</div>
               <div className={styles.greyBtn}>Chat</div>
@@ -245,7 +117,7 @@ const CoinDetails = ({ coinName, coinSymbol, price }) => {
                 <div>
                   <div>
                     <small className={styles.title}>
-                      Volume &nbsp;<small className='coin-symbol'> BTC</small>{' '}
+                      Volume &nbsp;<small className='coin-symbol'> {coinSymbol}</small>{' '}
                     </small>
                   </div>
                   <small>$24,143,176,324</small>
@@ -265,7 +137,7 @@ const CoinDetails = ({ coinName, coinSymbol, price }) => {
                   <div>
                     <small className={styles.title}>Circulating Supply</small>
                   </div>
-                  <small>18,983,850.00 BTC</small>
+                  <small>18,983,850.00 {coinSymbol}</small>
                 </div>
                 <br />
                 <div>

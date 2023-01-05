@@ -7,7 +7,7 @@ const styles = {
 const RateFilled = () => {
     return <div className={styles.rateFilled}>
         <ChevronUp />
-        <small className='pl-1'>23.32%</small>
+        <small className='pl-1'>0.05%</small>
     </div>
 }
 
